@@ -23,6 +23,17 @@ public class WebServiceConfig {
     }
 
     @Bean
+    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
+            ApplicationContext applicationContext) {
+
+        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+        servlet.setApplicationContext(applicationContext);
+        servlet.setTransformWsdlLocations(true);
+
+        return new ServletRegistrationBean<>(servlet, "/ws/*");
+    }
+    
+    @Bean
     public XsdSchema usersSchema() {
         return new SimpleXsdSchema(
                 new org.springframework.core.io.ClassPathResource("users.xsd")
